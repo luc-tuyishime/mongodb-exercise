@@ -30,35 +30,13 @@ async function createCourse() {
 }
 
 async function getCourses() {
-  const pageNumber = 2;
-  const pageSize = 10;
-
   const courses = await Course
     .find({ author: 'Mosh', isPublished: true })
-    .skip(( pageNumber - 1 ) * pageSize)
+    .or([ { price: { $gte: 15 } }, { name: /.*by*./i } ]) //find all the courses where we find by
     .limit(pageSize)
-    // .or([ { tags: 'frontend' }, { tags: 'backend' } ])
-    .sort({ name: 1 })
-    .select({ name: 1, tags: 1 })
-    console.log(courses)
-}
-
-async function updateCourse(id){
-  // approach Query first
-  // findById()
-  // Modify its properties
-  // save()
-  const course = await Course.findById(id); // return a promise await it and storei in a variable
-  if(!course) return
-
-  course.set({
-    isPublished: true,
-    author: 'Another Author'
-  })
-
-  const result = await course.save()
-  console.log(result)
-
+    .sort('-price')
+    .select('name author price')
+  console.log(courses)
 }
 
 async function run(){
