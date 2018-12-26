@@ -48,17 +48,14 @@ async function updateCourse(id){
   // findById()
   // Modify its properties
   // save()
-  const course = await Course.findById(id); // return a promise await it and storei in a variable
-  if(!course) return
+  const result = await Course.findByIdAndUpdate(id, { // send one command to mongo for update and return it.
+    $set: {
+      author: 'Jason',
+      isPublished: false
+    }
+  }, { new: true }); // return a promise await it and storei in a variable
 
-  course.set({
-    isPublished: true,
-    author: 'Another Author'
-  })
-
-  const result = await course.save()
   console.log(result)
-
 }
 
 updateCourse(' put id from DB compasse ')
