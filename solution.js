@@ -61,6 +61,8 @@ async function updateCourse(id){
 
 }
 
+updateCourse(' put id from DB compasse ')
+
 async function run(){
   const courses = await getCourses()
   console.log(courses)
